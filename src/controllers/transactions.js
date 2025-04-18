@@ -11,10 +11,21 @@ import {
   createTransaction,
 } from '../services/transactions.js';
 
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
+
 export const getTransactionsController = async (req, res, next) => {
-  try {
+	try {
+		const { sortBy, sortOrder } = parseSortParams(req.query);
+		const filter = parseFilterParams(req.query);
+
+		      // userId: req.user._id,
+
     const transactions = await getAllTransactions({
-      userId: req.user._id,
+
+      sortBy,
+      sortOrder,
+      filter,
     });
 
     res.json({
@@ -48,10 +59,10 @@ export const getTransactionByIdController = async (req, res, next) => {
 };
 
 export const createTransactionController = async (req, res, next) => {
-  try {
+	try {
+    // userId: req.user._id,
     const transaction = await createTransaction({
       ...req.body,
-      userId: req.user._id,
     });
     res.status(201).json({
       status: 201,
@@ -85,7 +96,7 @@ export const patchTransactionController = async (req, res) => {
     const { transactionId } = req.params;
     const result = await patchTransaction(
       transactionId,
-      req.user._id,
+      // req.user._id,
       req.body,
     );
     if (!result) {

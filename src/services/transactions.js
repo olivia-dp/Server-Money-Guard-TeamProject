@@ -1,8 +1,23 @@
 import { TransactionsCollection } from '../models/transaction.js';
+import { SORT_ORDER } from '../constants/index.js';
+// userId,
+export const getAllTransactions = async ({
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+  filter = {},
+}) => {
+  const query = {};
 
-export const getAllTransactions = async () => {
-  const transactions = await TransactionsCollection.find();
-  return transactions;
+  if (filter.date) {
+    query.date = filter.date.trim();
+  }
+
+  const transactions = await TransactionsCollection.find(query)
+    .sort({ [sortBy]: sortOrder })
+    .exec();
+  return {
+    data: transactions,
+  };
 };
 
 export const getTransactionById = async (transactionId) => {
