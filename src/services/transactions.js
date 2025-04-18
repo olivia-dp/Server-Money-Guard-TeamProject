@@ -6,22 +6,22 @@ export const getAllTransactions = async () => {
 };
 
 export const getTransactionById = async (transactionId) => {
-	console.log(transactionId);
-	
+  console.log(transactionId);
+
   const transaction = await TransactionsCollection.findById(transactionId);
   return transaction;
 };
 
 export const createTransaction = async (payload) => {
-	const transaction = await TransactionsCollection.create(payload);
+  const transaction = await TransactionsCollection.create(payload);
   return transaction;
 };
 
 export const deleteTransaction = async (transactionId) => {
   const transaction = await TransactionsCollection.findOneAndDelete({
     _id: transactionId,
-	});
-	return transaction;
+  });
+  return transaction;
 };
 
 export const patchTransaction = async (transactionId, payload) => {

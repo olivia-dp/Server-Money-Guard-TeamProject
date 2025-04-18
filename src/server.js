@@ -11,8 +11,6 @@ import cookieParser from 'cookie-parser';
 
 import transactionsRouter from './routers/transactions.js';
 
-
-
 const app = express();
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -31,9 +29,9 @@ export const setupServer = async () => {
           target: 'pino-pretty',
         },
       }),
-		);
+    );
 
-		app.use(transactionsRouter);
+    app.use(transactionsRouter);
 
     app.use(notFoundHandler);
 
