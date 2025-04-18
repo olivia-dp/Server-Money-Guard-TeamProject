@@ -9,10 +9,12 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 
+import transactionsRouter from './routers/transactions.js';
+
 
 
 const app = express();
-const PORT = Number(getEnvVar('PORT', '4000'));
+const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const setupServer = async () => {
   try {
@@ -29,12 +31,13 @@ export const setupServer = async () => {
           target: 'pino-pretty',
         },
       }),
-    );
+		);
 
+		app.use(transactionsRouter);
 
-    // app.use('*', notFoundHandler);
+    app.use(notFoundHandler);
 
-    // app.use(errorHandler);
+    app.use(errorHandler);
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
