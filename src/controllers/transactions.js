@@ -15,14 +15,13 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getTransactionsController = async (req, res, next) => {
-	try {
-		const { sortBy, sortOrder } = parseSortParams(req.query);
-		const filter = parseFilterParams(req.query);
+  try {
+    const { sortBy, sortOrder } = parseSortParams(req.query);
+    const filter = parseFilterParams(req.query);
 
-		      // userId: req.user._id,
+    // userId: req.user._id,
 
     const transactions = await getAllTransactions({
-
       sortBy,
       sortOrder,
       filter,
@@ -59,7 +58,7 @@ export const getTransactionByIdController = async (req, res, next) => {
 };
 
 export const createTransactionController = async (req, res, next) => {
-	try {
+  try {
     // userId: req.user._id,
     const transaction = await createTransaction({
       ...req.body,
