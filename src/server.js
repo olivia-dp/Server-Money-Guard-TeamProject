@@ -12,10 +12,10 @@ import cookieParser from 'cookie-parser';
 import router from './routers/index.js';
 
 
-
+import transactionsRouter from './routers/transactions.js';
 
 const app = express();
-const PORT = Number(getEnvVar('PORT', '4000'));
+const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const setupServer = async () => {
   try {
@@ -35,6 +35,7 @@ export const setupServer = async () => {
     );
     app.use(router);
 
+    app.use(transactionsRouter);
 
     app.use(notFoundHandler);
 
