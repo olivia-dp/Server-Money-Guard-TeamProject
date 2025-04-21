@@ -13,6 +13,7 @@ import router from './routers/index.js';
 
 
 import transactionsRouter from './routers/transactions.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const app = express();
 const PORT = Number(getEnvVar('PORT', '3000'));
@@ -33,6 +34,7 @@ export const setupServer = async () => {
         },
       }),
     );
+    app.use('/api-docs', swaggerDocs());
     app.use(router);
 
     app.use(transactionsRouter);
