@@ -30,7 +30,7 @@ const accessToken = randomBytes(30).toString('base64');
 
   return {
     user,
-    accessToken: session.accessToken,
+    session,
 };
 };
 
@@ -58,7 +58,7 @@ export const loginUser = async (payload) => {
   
     return {
       user,
-      accessToken: session.accessToken,
+      session,
   };
   };
   
