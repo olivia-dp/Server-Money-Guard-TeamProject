@@ -1,7 +1,8 @@
 import { TransactionsCollection } from '../models/transaction.js';
 import { SORT_ORDER } from '../constants/index.js';
-// userId,
+
 export const getAllTransactions = async ({
+  userId,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
   filter = {},
@@ -12,7 +13,7 @@ export const getAllTransactions = async ({
     query.date = filter.date.trim();
   }
 
-  const transactions = await TransactionsCollection.find(query)
+  const transactions = await TransactionsCollection.find({ userId, ...query })
     .sort({ [sortBy]: sortOrder })
     .exec();
   return {
@@ -20,10 +21,13 @@ export const getAllTransactions = async ({
   };
 };
 
-export const getTransactionById = async (transactionId) => {
+export const getTransactionById = async (transactionId, userId) => {
   console.log(transactionId);
 
-  const transaction = await TransactionsCollection.findById(transactionId);
+  const transaction = await TransactionsCollection.findById(
+    transactionId,
+    userId,
+  );
   return transaction;
 };
 
@@ -32,16 +36,17 @@ export const createTransaction = async (payload) => {
   return transaction;
 };
 
-export const deleteTransaction = async (transactionId) => {
+export const deleteTransaction = async (transactionId, userId) => {
   const transaction = await TransactionsCollection.findOneAndDelete({
     _id: transactionId,
+    userId,
   });
   return transaction;
 };
 
-export const patchTransaction = async (transactionId, payload) => {
+export const patchTransaction = async (transactionId, userId, payload) => {
   const rawResult = await TransactionsCollection.findOneAndUpdate(
-    { _id: transactionId },
+    { _id: transactionId, userId },
     payload,
     {
       new: true,
@@ -49,10 +54,5 @@ export const patchTransaction = async (transactionId, payload) => {
     },
   );
 
-  if (!rawResult || !rawResult.value) return null;
-
-  return {
-    transaction: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
-  };
+  return rawResult;
 };

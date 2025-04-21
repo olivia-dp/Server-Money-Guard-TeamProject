@@ -1,6 +1,7 @@
 // src/routers/transactions.js
 
 import { Router } from 'express';
+import { authenticate } from '../middlewares/authenticate.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -17,20 +18,22 @@ import {
 
 const router = Router();
 
-router.get('/home', getTransactionsController);
+router.use(authenticate)
 
-router.get('/home/:transactionId', isValidId, getTransactionByIdController);
+router.get('/', getTransactionsController);
 
-router.post('/home', ctrlWrapper(createTransactionController));
+router.get('/:transactionId', isValidId, getTransactionByIdController);
+
+router.post('/', ctrlWrapper(createTransactionController));
 
 router.delete(
-  '/home/:transactionId',
+  '/:transactionId',
   validateBody(createTransactionSchema),
   ctrlWrapper(deleteTransactionController),
 );
 
 router.patch(
-  '/home/:transactionId',
+  '/:transactionId',
   isValidId,
   validateBody(updateTransactionSchema),
   ctrlWrapper(patchTransactionController),

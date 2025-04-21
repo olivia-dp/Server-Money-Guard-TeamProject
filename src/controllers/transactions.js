@@ -19,9 +19,8 @@ export const getTransactionsController = async (req, res, next) => {
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filter = parseFilterParams(req.query);
 
-    // userId: req.user._id,
-
-    const transactions = await getAllTransactions({
+		const transactions = await getAllTransactions({
+      userId: req.user._id,
       sortBy,
       sortOrder,
       filter,
@@ -40,7 +39,7 @@ export const getTransactionsController = async (req, res, next) => {
 export const getTransactionByIdController = async (req, res, next) => {
   try {
     const { transactionId } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(contactId)) {
+    if (!mongoose.Types.ObjectId.isValid(transactionId, req.user._id)) {
       throw createHttpError(400, 'Invalid transaction ID format');
     }
     const transaction = await getTransactionById(transactionId);
@@ -59,8 +58,8 @@ export const getTransactionByIdController = async (req, res, next) => {
 
 export const createTransactionController = async (req, res, next) => {
   try {
-    // userId: req.user._id,
-    const transaction = await createTransaction({
+		const transaction = await createTransaction({
+      userId: req.user._id,
       ...req.body,
     });
     res.status(201).json({
@@ -73,29 +72,12 @@ export const createTransactionController = async (req, res, next) => {
   }
 };
 
-export const deleteTransactionController = async (req, res, next) => {
-  try {
-    const { transactionId } = req.params;
-
-    const transaction = await deleteTransaction(transactionId);
-
-    if (!transaction) {
-      next(createHttpError(404, 'Transaction not found'));
-      return;
-    }
-
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const patchTransactionController = async (req, res) => {
   try {
     const { transactionId } = req.params;
     const result = await patchTransaction(
       transactionId,
-      // req.user._id,
+      req.user._id,
       req.body,
     );
     if (!result) {
@@ -111,3 +93,23 @@ export const patchTransactionController = async (req, res) => {
     next(error);
   }
 };
+
+export const deleteTransactionController = async (req, res, next) => {
+  try {
+		const { transactionId } = req.params;
+		 const userId = req.user.id;
+
+    const transaction = await deleteTransaction(transactionId, userId);
+
+    if (!transaction) {
+      next(createHttpError(404, 'Transaction not found'));
+      return;
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+};
+
+
