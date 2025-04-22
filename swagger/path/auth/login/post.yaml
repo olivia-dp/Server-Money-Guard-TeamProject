@@ -3,7 +3,6 @@ tags:
 summary: Login user
 operationId: loginUser
 description: 'Login an existing user using email and password'
-
 requestBody:
   content:
     application/json:

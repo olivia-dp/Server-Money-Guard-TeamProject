@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 
-
 import { initMongoConnection } from './db/initMongoConnection.js';
 import { getEnvVar } from './utils/getEnvVar.js';
 
@@ -11,9 +10,8 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
 import router from './routers/index.js';
 
-
-import transactionsRouter from './routers/transactions.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
+import { UPLOADS_DIR } from './constants/index.js';
 
 const app = express();
 const PORT = Number(getEnvVar('PORT', '3000'));
@@ -23,9 +21,15 @@ export const setupServer = async () => {
     await initMongoConnection();
     console.log('MongoDB connection established successfully!');
 
-    app.use(cors());
+    app.use(
+      cors({
+        origin: 'http://localhost:5174',
+        credentials: true,
+      }),
+    );
     app.use(express.json());
-
+    app.use('/uploads', express.static(UPLOADS_DIR));
+    app.use('/api-docs', swaggerDocs());
     app.use(cookieParser());
     app.use(
       pino({
@@ -34,10 +38,8 @@ export const setupServer = async () => {
         },
       }),
     );
-    app.use('/api-docs', swaggerDocs());
-    app.use(router);
 
-    app.use(transactionsRouter);
+    app.use(router);
 
     app.use(notFoundHandler);
 
@@ -48,6 +50,5 @@ export const setupServer = async () => {
     });
   } catch (error) {
     console.error('Error during server setup:', error);
-    
   }
 };
