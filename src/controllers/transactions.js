@@ -1,11 +1,10 @@
 // src/controllers/transactions.js
-
+import moment from 'moment';
 import createHttpError from 'http-errors';
 
-import { deleteTransaction } from '../services/transactions.js';
-import { patchTransaction } from '../services/transactions.js';
-
 import {
+	deleteTransaction,
+	patchTransaction,
   getAllTransactions,
   getTransactionById,
   createTransaction,
@@ -29,7 +28,7 @@ export const getTransactionsController = async (req, res, next) => {
     res.json({
       status: 200,
       message: 'Successfully found transactions!',
-      data: transactions,
+      data: transactions.data,
     });
   } catch (error) {
     next(error);
@@ -49,7 +48,7 @@ export const getTransactionByIdController = async (req, res, next) => {
     res.json({
       status: 200,
       message: `Successfully found transaction with id ${transactionId}!`,
-      data: transaction,
+      data: transaction.data,
     });
   } catch (error) {
     next(error);
@@ -57,7 +56,35 @@ export const getTransactionByIdController = async (req, res, next) => {
 };
 
 export const createTransactionController = async (req, res, next) => {
-  try {
+	try {
+		if (req.body.date) {
+      const inputDate = moment(
+        req.body.date,
+        [
+          'DD-MM-YYYY',
+          'YYYY-MM-DD',
+          'MM-DD-YYYY',
+          'DD/MM/YYYY',
+          'DD.MM.YYYY',
+          'YYYY.MM.DD',
+          'D.M.YYYY',
+          'D.M.YY',
+          'DD.MM.YY',
+          'DD-MM-YY',
+        ],
+        true,
+      );
+
+      if (!inputDate.isValid()) {
+        return res.status(400).json({
+          status: 400,
+          message: 'Invalid date format.',
+        });
+      }
+
+      req.body.date = inputDate.format('DD-MM-YYYY');
+    }
+		
 		const transaction = await createTransaction({
       userId: req.user._id,
       ...req.body,
