@@ -16,3 +16,28 @@ export const parseFilterParams = (query) => {
     ...(parsedDate && { date: parsedDate }),
   };
 };
+
+const parseSummaryDate = (date) => {
+  if (typeof date !== 'string') return undefined;
+
+  const [month, year] = date.split('-');
+  if (!month || !year) return undefined;
+
+  return { month, year };
+};
+
+export const parseSummaryFilterParams = (query) => {
+  const { date } = query;
+
+  const parsedDate = parseSummaryDate(date);
+
+  return parsedDate
+    ? {
+        date: {
+          $regex: `^\\d{2}-${parsedDate.month.padStart(2, '0')}-${
+            parsedDate.year
+          }`,
+        },
+      }
+    : {};
+};

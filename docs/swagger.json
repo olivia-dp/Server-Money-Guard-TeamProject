@@ -399,7 +399,7 @@
             "name": "date",
             "schema": {
               "type": "string",
-              "example": true,
+              "example": "dd-mm-yyy",
               "description": "All transactions from date"
             }
           },
@@ -419,8 +419,7 @@
                 "Leisure",
                 "Other expenses",
                 "Entertaiment"
-              ],
-              "example": "payment for first semester"
+              ]
             }
           }
         ],
@@ -497,7 +496,7 @@
                   "date": {
                     "description": "transaction's date",
                     "type": "string",
-                    "example": "22-12-2025"
+                    "example": "dd-mm-yyyy"
                   },
                   "type": {
                     "description": "transaction's type",
@@ -667,7 +666,7 @@
                   "date": {
                     "description": "transaction's date",
                     "type": "string",
-                    "example": "22-12-2025"
+                    "example": "dd-mm-yyyy"
                   },
                   "type": {
                     "description": "transaction's type",
@@ -766,6 +765,76 @@
         "responses": {
           "204": {
             "description": "Transaction was deleted"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/summary": {
+      "get": {
+        "tags": [
+          "Summary"
+        ],
+        "summary": "Get list of transaction's summary",
+        "operationId": "getSummary",
+        "description": "Get list of Transaction`s summary with this endpoint",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "schema": {
+              "type": "string",
+              "example": "mm-yyyy",
+              "description": "All transaction's summary from date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully found transaction's summary!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully found transaction's summary!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/summary"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -898,9 +967,16 @@
             "description": "transaction's category",
             "type": "string",
             "enum": [
-              "Education",
+              "Main expenses",
+              "Products",
               "Car",
-              "Products"
+              "Self care",
+              "Child care",
+              "Household products",
+              "Education",
+              "Leisure",
+              "Other expenses",
+              "Entertaiment"
             ]
           },
           "comment": {
@@ -917,6 +993,32 @@
             "description": "transaction's user id",
             "type": "string",
             "example": "65e4decdd286b30065d54af9"
+          }
+        }
+      },
+      "summary": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "description": "transaction's id",
+            "type": "number",
+            "example": 111111
+          },
+          "category": {
+            "description": "transaction's date",
+            "type": "string",
+            "enum": [
+              "Main expenses",
+              "Products",
+              "Car",
+              "Self care",
+              "Child care",
+              "Household products",
+              "Education",
+              "Leisure",
+              "Other expenses",
+              "Entertaiment"
+            ]
           }
         }
       }

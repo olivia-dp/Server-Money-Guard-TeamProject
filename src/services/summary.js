@@ -1,16 +1,15 @@
 // src/service/summary.js
 import { TransactionsCollection } from '../models/transaction.js';
 
-export const getSummary = async ({ userId, filter = {} }) => {
-	const matchStage = { userId };
-
-  if (filter.date) {
-    matchStage.date = filter.date.trim();
-  }
+export const getSummary = async ({ userId, filter }) => {
+  const query = {
+    userId,
+    ...filter,
+  };
 
   const summary = await TransactionsCollection.aggregate([
     {
-      $match: matchStage,
+      $match: query,
     },
     {
       $group: {
@@ -28,3 +27,4 @@ export const getSummary = async ({ userId, filter = {} }) => {
   ]);
   return summary;
 };
+

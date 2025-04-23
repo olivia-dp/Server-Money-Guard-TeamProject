@@ -21,7 +21,7 @@ requestBody:
           date:
             description: "transaction's date"
             type: string
-            example: '22-12-2025'
+            example: 'dd-mm-yyyy'
           type:
             description: "transaction's type"
             type: string

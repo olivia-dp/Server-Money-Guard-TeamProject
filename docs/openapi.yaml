@@ -39,6 +39,10 @@ paths:
       $ref: ../swagger/path/transactions/{id}/patch.yaml
     delete: 
       $ref: ../swagger/path/transactions/{id}/delete.yaml
+  
+  /summary:
+    get:
+      $ref: ../swagger/path/summary/get.yaml
 
 components:
   securitySchemes:
