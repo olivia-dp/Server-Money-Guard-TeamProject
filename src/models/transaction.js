@@ -14,6 +14,20 @@ const TransactionsSchema = new Schema(
     },
     category: {
       type: String,
+      enum: [
+        'Main expenses',
+        'Products',
+        'Car',
+        'Self care',
+        'Child care',
+        'Household products',
+        'Education',
+        'Leisure',
+        'Other expenses',
+        'Entertaiment',
+      ],
+      required: true,
+      default: 'Main expenses',
     },
     comment: {
       type: String,
