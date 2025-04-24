@@ -3,8 +3,8 @@ import moment from 'moment';
 import createHttpError from 'http-errors';
 
 import {
-  deleteTransaction,
-  patchTransaction,
+	deleteTransaction,
+	patchTransaction,
   getAllTransactions,
   getTransactionById,
   createTransaction,
@@ -18,7 +18,7 @@ export const getTransactionsController = async (req, res, next) => {
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filter = parseFilterParams(req.query);
 
-    const transactions = await getAllTransactions({
+		const transactions = await getAllTransactions({
       userId: req.user._id,
       sortBy,
       sortOrder,
@@ -56,8 +56,8 @@ export const getTransactionByIdController = async (req, res, next) => {
 };
 
 export const createTransactionController = async (req, res, next) => {
-  try {
-    if (req.body.date) {
+	try {
+		if (req.body.date) {
       const inputDate = moment(
         req.body.date,
         [
@@ -84,8 +84,8 @@ export const createTransactionController = async (req, res, next) => {
 
       req.body.date = inputDate.format('DD-MM-YYYY');
     }
-
-    const transaction = await createTransaction({
+		
+		const transaction = await createTransaction({
       userId: req.user._id,
       ...req.body,
     });
@@ -123,8 +123,8 @@ export const patchTransactionController = async (req, res) => {
 
 export const deleteTransactionController = async (req, res, next) => {
   try {
-    const { transactionId } = req.params;
-    const userId = req.user.id;
+		const { transactionId } = req.params;
+		 const userId = req.user.id;
 
     const transaction = await deleteTransaction(transactionId, userId);
 
@@ -138,3 +138,5 @@ export const deleteTransactionController = async (req, res, next) => {
     next(error);
   }
 };
+
+
