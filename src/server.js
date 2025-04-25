@@ -23,7 +23,7 @@ export const setupServer = async () => {
 
     app.use(
       cors({
-        origin: ['http://localhost:5173', 'https://money-guard-team-project-nine.vercel.app'],
+        origin: ['https://localhost:5173', 'https://money-guard-team-project-nine.vercel.app'],
         credentials: true,
       }),
     );

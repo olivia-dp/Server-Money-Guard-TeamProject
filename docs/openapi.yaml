@@ -7,11 +7,8 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: 
     This is a documentation of students app
-tags:
-  - name: Auth
-    description: Auth operations.
 servers:
-  - url: http://127.0.0.1:3000
+  - url: https://127.0.0.1:3000
   - url: https://server-money-guard-teamproject.onrender.com
 paths:
   /auth/register:

@@ -46,7 +46,7 @@ export const addUserAvatarController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Avatar updated successfully',
-    avatar: updatedUser,
+    data: updatedUser,
   });
 };
 
@@ -63,7 +63,7 @@ export const patchUserNameController = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: 'Name updated successfully',
-    avatar: updatedUser,
+    data: updatedUser,
   })
 
 

@@ -11,12 +11,14 @@ export const registerUser = async (payload) => {
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-const user = await UserCollection.create({
-  ...payload,
-  password: encryptedPassword,
-});
-
-const accessToken = randomBytes(30).toString('base64');
+  try {
+    const user = await UserCollection.create({
+      ...payload,
+      email: normalizedEmail,
+      password: encryptedPassword,
+    });
+  
+    const accessToken = randomBytes(30).toString('base64');
     const refreshToken = randomBytes(30).toString('base64');
 
     const session = await SessionCollection.create({
@@ -27,6 +29,12 @@ const accessToken = randomBytes(30).toString('base64');
       refreshTokenValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
 
+  } catch (error) {
+    if (error.code === 11000) {
+      throw createHttpError(409, 'Email already exists');
+    }
+    throw createHttpError(500, 'Server error');
+  }
 
   return {
     user,
