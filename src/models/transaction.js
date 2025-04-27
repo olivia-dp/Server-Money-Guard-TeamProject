@@ -24,7 +24,7 @@ const TransactionsSchema = new Schema(
         'Education',
         'Leisure',
         'Other expenses',
-        'Entertaiment',
+        'Entertainment',
       ],
       required: true,
       default: 'Main expenses',
