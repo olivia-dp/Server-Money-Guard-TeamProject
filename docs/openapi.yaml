@@ -16,6 +16,8 @@ tags:
     description: Operations about tramsactions.
   - name: Summary
     description: Summary info about user transactions
+  - name: Categories
+    description: Get all categories
 servers:
   - url: https://server-money-guard-teamproject.onrender.com
 paths:
@@ -40,21 +42,24 @@ paths:
       $ref: '../swagger/path/users/current/avatar/patch.yaml'
   /transactions:
     get:
-      $ref: ../swagger/path/transactions/get.yaml
+      $ref: '../swagger/path/transactions/get.yaml'
     post:
-      $ref: ../swagger/path/transactions/post.yaml
+      $ref: '../swagger/path/transactions/post.yaml'
   
   /transactions/{id}: 
     get: 
-      $ref: ../swagger/path/transactions/{id}/get.yaml
+      $ref: '../swagger/path/transactions/{id}/get.yaml'
     patch: 
-      $ref: ../swagger/path/transactions/{id}/patch.yaml
+      $ref: '../swagger/path/transactions/{id}/patch.yaml'
     delete: 
-      $ref: ../swagger/path/transactions/{id}/delete.yaml
+      $ref: '../swagger/path/transactions/{id}/delete.yaml'
   
   /summary:
     get:
-      $ref: ../swagger/path/summary/get.yaml
+      $ref: '../swagger/path/summary/get.yaml'
+  /categories:
+    get: 
+      $ref: '../swagger/path/categories/get.yaml'
 
 components:
   securitySchemes:
