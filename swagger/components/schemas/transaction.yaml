@@ -21,7 +21,7 @@ properties:
   category:
     description: "transaction's category"
     type: string
-    enum: ['Main expenses','Products', 'Car', 'Self care', 'Child care', 'Household products','Education', 'Leisure', 'Other expenses', 'Entertaiment']
+    enum: ['Main expenses','Products', 'Car', 'Self care', 'Child care', 'Household products','Education', 'Leisure', 'Other expenses', 'Entertaiment', 'Income']
   comment:
     description: "transaction's comment"
     type: string
