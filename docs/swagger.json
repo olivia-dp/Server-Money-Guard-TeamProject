@@ -613,7 +613,6 @@
             "name": "date",
             "schema": {
               "type": "string",
-              "example": "dd-mm-yyy",
               "description": "All transactions from date"
             }
           },
