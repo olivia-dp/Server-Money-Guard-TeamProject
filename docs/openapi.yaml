@@ -17,7 +17,7 @@ tags:
   - name: Summary
     description: Summary info about user transactions
 servers:
-  - url: http://server-money-guard-teamproject.onrender.com
+  - url: https://server-money-guard-teamproject.onrender.com
 paths:
   /auth/register:
     post:
