@@ -2,7 +2,7 @@
 
 import { model, Schema } from 'mongoose';
 
-const TransactionsSchema = new Schema(
+export const TransactionsSchema = new Schema(
   {
     date: {
       type: String,
@@ -24,8 +24,8 @@ const TransactionsSchema = new Schema(
         'Education',
         'Leisure',
         'Other expenses',
-				'Entertainment',
-				'Income'
+        'Entertainment',
+        'Income',
       ],
       required: true,
       default: 'Main expenses',
