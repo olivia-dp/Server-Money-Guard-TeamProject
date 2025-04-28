@@ -1,9 +1,9 @@
 tags:
-  - Users
+  - Auth
 summary: Register user
 operationId: registerUser
 description: 'Register a new user using email and password'
-
+security: []
 requestBody:
   content:
     application/json:
@@ -19,7 +19,7 @@ requestBody:
             type: string
             example: 'John Doe'
           email:
-            description: 'User`s email address. Email must be a valid email address.'
+            description: 'User`s email address. Email must be a valid email address. Must be less then 64 characters.'
             type: string
             example: nelson89@gmail.com
           password:

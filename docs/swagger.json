@@ -7,12 +7,9 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "description": "This is a documentation of students app"
+    "description": "This is a documentation of Money Guard App"
   },
   "servers": [
-    {
-      "url": "http://127.0.0.1:3000"
-    },
     {
       "url": "https://server-money-guard-teamproject.onrender.com"
     }
@@ -21,17 +18,30 @@
     {
       "name": "Auth",
       "description": "Auth operations."
+    },
+    {
+      "name": "Users",
+      "description": "Operation about users."
+    },
+    {
+      "name": "Transactions",
+      "description": "Operations about tramsactions."
+    },
+    {
+      "name": "Summary",
+      "description": "Summary info about user transactions"
     }
   ],
   "paths": {
     "/auth/register": {
       "post": {
         "tags": [
-          "Users"
+          "Auth"
         ],
         "summary": "Register user",
         "operationId": "registerUser",
         "description": "Register a new user using email and password",
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -49,7 +59,7 @@
                     "example": "John Doe"
                   },
                   "email": {
-                    "description": "User`s email address. Email must be a valid email address.",
+                    "description": "User`s email address. Email must be a valid email address. Must be less then 64 characters.",
                     "type": "string",
                     "example": "nelson89@gmail.com"
                   },
@@ -184,11 +194,12 @@
     "/auth/login": {
       "post": {
         "tags": [
-          "Users"
+          "Auth"
         ],
         "summary": "Login user",
         "operationId": "loginUser",
         "description": "Login an existing user using email and password",
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -314,16 +325,12 @@
     "/auth/logout": {
       "post": {
         "tags": [
-          "Users"
+          "Auth"
         ],
         "summary": "Logout user",
         "operationId": "logoutUser",
         "description": "Logs out the authenticated user by clearing the session ID and refresh token cookies.",
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ],
+        "security": [],
         "parameters": [
           {
             "in": "cookie",
@@ -373,6 +380,209 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get information about user",
+        "operationId": "getUserData",
+        "description": "Get information about user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User data fetched successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "data"
+                      ],
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "$ref": "#/components/schemas/user"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Edit user name",
+        "operationId": "patchUserName",
+        "description": "Edit user name with payload",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "User's name",
+                    "type": "string",
+                    "example": "John Doe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Name updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Name updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/users/current/avatar": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user avatar",
+        "operationId": "addUserAvatar",
+        "description": "Update user avatar with payload",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "avatar"
+                ],
+                "properties": {
+                  "photo": {
+                    "description": "User avatar",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update user avatar",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Avatar updated successfully"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/user"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -905,7 +1115,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "User not found"
+                  "example": "Route not found"
                 }
               }
             }
@@ -938,6 +1148,42 @@
       }
     },
     "schemas": {
+      "user": {
+        "type": "object",
+        "required": [
+          "_id",
+          "name",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "_id": {
+            "description": "User's id",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "name": {
+            "description": "User`s name. Should be 3-20 characters long.",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "description": "User`s email address. Email must be a valid email address.",
+            "type": "string",
+            "example": "john_doe@mail.com"
+          },
+          "password": {
+            "description": "User password Should be 8-64 characters long.",
+            "type": "string",
+            "example": "qwerty123"
+          },
+          "balance": {
+            "description": "User balance",
+            "type": "number",
+            "default": 0
+          }
+        }
+      },
       "transaction": {
         "type": "object",
         "required": [

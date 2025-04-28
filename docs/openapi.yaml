@@ -6,10 +6,18 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: 
-    This is a documentation of students app
+    This is a documentation of Money Guard App
+tags:
+  - name: Auth
+    description: Auth operations.
+  - name: Users
+    description: Operation about users.
+  - name: Transactions
+    description: Operations about tramsactions.
+  - name: Summary
+    description: Summary info about user transactions
 servers:
-  - url: https://127.0.0.1:3000
-  - url: https://server-money-guard-teamproject.onrender.com
+  - url: http://server-money-guard-teamproject.onrender.com
 paths:
   /auth/register:
     post:
@@ -22,7 +30,14 @@ paths:
   /auth/logout:
     post:
       $ref: '../swagger/path/auth/logout/post.yaml'
-
+  /users/current:
+    get: 
+      $ref: '../swagger/path/users/current/get.yaml'
+    patch: 
+      $ref: '../swagger/path/users/current/patch.yaml'
+  /users/current/avatar:
+    patch: 
+      $ref: '../swagger/path/users/current/avatar/patch.yaml'
   /transactions:
     get:
       $ref: ../swagger/path/transactions/get.yaml

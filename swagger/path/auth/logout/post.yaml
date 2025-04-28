@@ -1,11 +1,9 @@
 tags:
-  - Users
+  - Auth
 summary: Logout user
 operationId: logoutUser
 description: Logs out the authenticated user by clearing the session ID and refresh token cookies.
-security:
-  - cookieAuth: []
-
+security: []
 parameters:
   - in: cookie
     name: sessionId
