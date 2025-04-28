@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "https://server-money-guard-teamproject.onrender.com"
+      "url": "http://server-money-guard-teamproject.onrender.com"
     }
   ],
   "tags": [
@@ -463,7 +463,7 @@
         ],
         "requestBody": {
           "content": {
-            "aplication/json": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "required": [
@@ -541,7 +541,7 @@
                   "avatar"
                 ],
                 "properties": {
-                  "photo": {
+                  "avatar": {
                     "description": "User avatar",
                     "type": "string",
                     "format": "binary"
@@ -1181,6 +1181,11 @@
             "description": "User balance",
             "type": "number",
             "default": 0
+          },
+          "avatar": {
+            "description": "User avatar",
+            "type": "string",
+            "default": null
           }
         }
       },

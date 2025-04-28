@@ -25,4 +25,8 @@ properties:
     description: "User balance"
     type: number
     default: 0
+  avatar:
+    description: "User avatar"
+    type: string
+    default: null
  
