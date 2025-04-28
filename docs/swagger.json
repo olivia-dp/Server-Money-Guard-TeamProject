@@ -703,8 +703,7 @@
                   "date",
                   "type",
                   "sum",
-                  "category",
-                  "userId"
+                  "category"
                 ],
                 "properties": {
                   "date": {
@@ -730,7 +729,7 @@
                       "Education",
                       "Leisure",
                       "Other expenses",
-                      "Entertaiment"
+                      "Entertainment"
                     ]
                   },
                   "comment": {
@@ -742,11 +741,6 @@
                     "description": "transaction's sum",
                     "type": "number",
                     "example": 1000
-                  },
-                  "userId": {
-                    "description": "transaction's user id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
                   }
                 }
               }
@@ -876,7 +870,7 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -903,7 +897,7 @@
                       "Education",
                       "Leisure",
                       "Other expenses",
-                      "Entertaiment"
+                      "Entertainment"
                     ]
                   },
                   "comment": {
@@ -953,6 +947,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },

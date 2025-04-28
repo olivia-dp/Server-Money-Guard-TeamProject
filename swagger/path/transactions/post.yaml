@@ -8,7 +8,7 @@ security:
   - bearerAuth: []
 requestBody:
   content:
-    application/json:
+     application/json:
       schema:
         type: object
         required:
@@ -16,7 +16,6 @@ requestBody:
           - type
           - sum
           - category
-          - userId
         properties:
           date:
             description: "transaction's date"
@@ -29,7 +28,7 @@ requestBody:
           category:
             description: "transaction's category"
             type: string
-            enum: ['Main expenses','Products', 'Car', 'Self care', 'Child care', 'Household products','Education', 'Leisure', 'Other expenses', 'Entertaiment']
+            enum: ['Main expenses','Products', 'Car', 'Self care', 'Child care', 'Household products','Education', 'Leisure', 'Other expenses', 'Entertainment']
           comment:
             description: "transaction's comment"
             type: string
@@ -38,10 +37,6 @@ requestBody:
             description: "transaction's sum"
             type: number
             example: 1000
-          userId:
-            description: "transaction's user id"
-            type: string
-            example: 65e4decdd286b30065d54af9
 responses:
   '201':
     description: Transaction Successfully Created

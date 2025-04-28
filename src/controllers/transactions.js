@@ -1,6 +1,7 @@
 // src/controllers/transactions.js
 import moment from 'moment';
 import createHttpError from 'http-errors';
+import mongoose from 'mongoose';
 
 import {
 	deleteTransaction,
@@ -12,6 +13,7 @@ import {
 
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import mongoose from 'mongoose';
 
 export const getTransactionsController = async (req, res, next) => {
   try {
@@ -99,7 +101,7 @@ export const createTransactionController = async (req, res, next) => {
   }
 };
 
-export const patchTransactionController = async (req, res) => {
+export const patchTransactionController = async (req, res, next) => {
   try {
     const { transactionId } = req.params;
     const result = await patchTransaction(
