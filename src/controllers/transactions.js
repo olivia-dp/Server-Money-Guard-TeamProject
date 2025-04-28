@@ -1,7 +1,6 @@
 // src/controllers/transactions.js
 import moment from 'moment';
 import createHttpError from 'http-errors';
-import mongoose from 'mongoose';
 
 import {
 	deleteTransaction,
@@ -50,7 +49,7 @@ export const getTransactionByIdController = async (req, res, next) => {
     res.json({
       status: 200,
       message: `Successfully found transaction with id ${transactionId}!`,
-      data: transaction.data,
+      data: transaction,
     });
   } catch (error) {
     next(error);
@@ -116,7 +115,7 @@ export const patchTransactionController = async (req, res, next) => {
     res.json({
       status: 200,
       message: `Successfully patched a transaction!`,
-      data: result.transaction,
+      data: result.value,
     });
   } catch (error) {
     next(error);
