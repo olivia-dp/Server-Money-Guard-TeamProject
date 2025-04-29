@@ -1,6 +1,7 @@
 import { registerUser, loginUser, logoutUser } from '../services/auth.js';
 import { loginOrRegister } from '../services/auth.js';
 import { getOAuthURL, validateCode } from '../utils/googleOAuth2.js';
+import { recalculateUserBalance } from '../services/calcBalance.js'; 
 
 export const registerUserController = async (req, res) => {
   const { user, session } = await registerUser(req.body);
@@ -25,7 +26,9 @@ export const loginUserController = async (req, res) => {
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,
-  });
+	});
+	
+	const updatedBalance = await recalculateUserBalance(user._id);
 
   res.status(200).json({
     status: 200,
