@@ -10,7 +10,8 @@ export const TransactionsSchema = new Schema(
     },
     type: {
       type: String,
-      required: true,
+			required: true,
+			enum: ['INCOME', 'EXPENSE']
     },
     category: {
       type: String,
