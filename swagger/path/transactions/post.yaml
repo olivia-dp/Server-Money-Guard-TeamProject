@@ -24,7 +24,7 @@ requestBody:
           type:
             description: "transaction's type"
             type: string
-            example: '+'
+            enum: ['Income', 'Expense']
           category:
             description: "transaction's category"
             type: string
