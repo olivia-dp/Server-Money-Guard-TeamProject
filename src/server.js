@@ -8,20 +8,31 @@ import { getEnvVar } from './utils/getEnvVar.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import cookieParser from 'cookie-parser';
+import router from './routers/index.js';
 
-
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
+import { UPLOADS_DIR } from './constants/index.js';
 
 const app = express();
-const PORT = Number(getEnvVar('PORT', '4000'));
+const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const setupServer = async () => {
   try {
     await initMongoConnection();
     console.log('MongoDB connection established successfully!');
 
-    app.use(cors());
+    app.use(
+      cors({
+        origin: [
+          'http://localhost:5173',
+          'https://money-guard-team-project-nine.vercel.app',
+        ],
+        credentials: true,
+      }),
+    );
     app.use(express.json());
-
+    app.use('/uploads', express.static(UPLOADS_DIR));
+    app.use('/api-docs', swaggerDocs());
     app.use(cookieParser());
     app.use(
       pino({
@@ -31,10 +42,11 @@ export const setupServer = async () => {
       }),
     );
 
+    app.use(router);
 
-    // app.use('*', notFoundHandler);
+    app.use(notFoundHandler);
 
-    // app.use(errorHandler);
+    app.use(errorHandler);
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
