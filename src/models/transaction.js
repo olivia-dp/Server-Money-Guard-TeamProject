@@ -11,7 +11,7 @@ export const TransactionsSchema = new Schema(
     type: {
       type: String,
 			required: true,
-			enum: ['Income', 'Expense']
+			enum: ['INCOME', 'EXPENSE']
     },
     category: {
       type: String,
