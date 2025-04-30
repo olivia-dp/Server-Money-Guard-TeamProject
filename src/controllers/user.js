@@ -1,22 +1,22 @@
-import UserCollection from "../models/userSchema.js";
-import {getCurrentUser} from "../services/user.js";
-import { getEnvVar } from "../utils/getEnvVar.js";
-import {saveFileToCloudinary} from "../utils/saveFileToCloudinary.js";
-import {saveFileToUploadDir} from "../utils/saveFileToUploadDir.js";
+import UserCollection from '../models/userSchema.js';
+import { recalculateUserBalance } from '../services/calcBalance.js';
+import { getCurrentUser } from '../services/user.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 
+export const getCurrentUserController = async (req, res) => {
+  const updatedBalance = await recalculateUserBalance(req.user._id);
 
+  const user = await getCurrentUser(req.user.id);
 
-export const getCurrentUserController =  async (req, res) => {
-    
-    const user = await getCurrentUser(req.user.id);
+  if (!user) {
+    return res.status(404).json({
+      status: 404,
+      message: 'User not found',
+    });
+  }
 
-    if (!user) {
-        return res.status(404).json({
-          status: 404,
-          message: 'User not found',
-        });
-      }
- 
   res.status(200).json({
     status: 200,
     message: 'User data fetched successfully',
@@ -26,7 +26,7 @@ export const getCurrentUserController =  async (req, res) => {
 
 export const addUserAvatarController = async (req, res) => {
   const userId = req.user._id;
-  const avatar = req.file; 
+  const avatar = req.file;
 
   let avatarUrl;
   if (avatar) {
@@ -40,7 +40,7 @@ export const addUserAvatarController = async (req, res) => {
   const updatedUser = await UserCollection.findByIdAndUpdate(
     userId,
     { avatar: avatarUrl },
-    { new: true }
+    { new: true },
   );
 
   res.status(200).json({
@@ -56,15 +56,13 @@ export const patchUserNameController = async (req, res) => {
 
   const updatedUser = await UserCollection.findByIdAndUpdate(
     userId,
-    {name: userName},
-    { new: true }
+    { name: userName },
+    { new: true },
   );
 
   res.status(200).json({
     status: 200,
     message: 'Name updated successfully',
     data: updatedUser,
-  })
-
-
-}
+  });
+};
