@@ -17,7 +17,7 @@ properties:
   type:
     description: "transaction's type"
     type: string
-    example: '+'
+    enum: ['INCOME', 'EXPENSE']
   category:
     description: "transaction's category"
     type: string
