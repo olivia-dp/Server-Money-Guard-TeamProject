@@ -14,3 +14,12 @@ export const loginUserSchema = Joi.object({
 export const confirmOAuthSchema = Joi.object({
   code: Joi.string().required(),
 });
+
+export const requestResetEmailSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+export const resetEmailSchema = Joi.object({
+  password: Joi.string().required(),
+  token: Joi.string().required(),
+});
