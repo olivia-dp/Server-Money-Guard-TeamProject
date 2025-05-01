@@ -26,6 +26,7 @@ export const setupServer = async () => {
         origin: [
           'http://localhost:5173',
           'https://money-guard-team-project-nine.vercel.app',
+          'https://money-guard-team-project-l11l67tgx-olivia-dps-projects.vercel.app',
         ],
         credentials: true,
       }),
